@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { useState, useEffect } from "react";
 import { formatNumberWithThousands, parseFormattedNumber } from "@/lib/utils";
+import { ImageUploadCrop } from "./ImageUploadCrop";
 
 interface Item {
   id?: number;
@@ -180,14 +181,12 @@ export function ItemDialog({ open, onOpenChange, item, onSave }: ItemDialogProps
               </div>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="image">URL hình ảnh</Label>
-              <Input
-                id="image"
-                value={formData.image}
-                onChange={(e) =>
-                  setFormData({ ...formData, image: e.target.value })
+              <Label htmlFor="image">Hình ảnh</Label>
+              <ImageUploadCrop
+                currentImage={formData.image}
+                onImageChange={(imageDataUrl) =>
+                  setFormData({ ...formData, image: imageDataUrl })
                 }
-                placeholder="/placeholder.svg"
               />
             </div>
           </div>
