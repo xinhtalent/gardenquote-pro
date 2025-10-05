@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Plus, FileText, DollarSign, UserPlus, TrendingUp, Users } from "lucide-react";
+import { Plus, FileText, DollarSign, UserPlus, TrendingUp, Users, Package } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
+  const [showFabMenu, setShowFabMenu] = useState(false);
+  
   // Mock data - sẽ thay bằng dữ liệu thực từ database
   const quotes = [
     {
@@ -29,6 +32,13 @@ const Dashboard = () => {
     }).format(amount);
   };
 
+  const formatCurrencyShort = (amount: number) => {
+    if (amount >= 1000000) {
+      return `${(amount / 1000000).toFixed(1)}Tr`;
+    }
+    return formatCurrency(amount);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary-light/10 to-background pb-20">
       <div className="container mx-auto px-4 py-8">
@@ -49,7 +59,7 @@ const Dashboard = () => {
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-muted-foreground mb-2">Tổng doanh thu</p>
                 <p className="text-2xl md:text-3xl font-bold text-foreground truncate">
-                  {formatCurrency(70000000)}
+                  {formatCurrencyShort(70000000)}
                 </p>
               </div>
               <div className="flex-shrink-0 p-3 bg-emerald-500/10 rounded-xl">
@@ -150,15 +160,43 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      {/* Floating Action Button */}
-      <Link to="/create-quote">
+      {/* Floating Action Button with Menu */}
+      <div className="fixed bottom-6 right-6 z-50">
+        {/* Menu Options */}
+        {showFabMenu && (
+          <div className="absolute bottom-20 right-0 flex flex-col gap-3 mb-2 animate-fade-in">
+            <Link to="/create-quote">
+              <Button 
+                variant="secondary"
+                className="flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
+                onClick={() => setShowFabMenu(false)}
+              >
+                <FileText className="w-5 h-5" />
+                <span>Thêm báo giá</span>
+              </Button>
+            </Link>
+            <Link to="/item-library">
+              <Button 
+                variant="secondary"
+                className="flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
+                onClick={() => setShowFabMenu(false)}
+              >
+                <Package className="w-5 h-5" />
+                <span>Thêm hạng mục</span>
+              </Button>
+            </Link>
+          </div>
+        )}
+        
+        {/* Main FAB Button */}
         <Button 
           size="icon"
-          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50"
+          className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          onClick={() => setShowFabMenu(!showFabMenu)}
         >
-          <Plus className="w-6 h-6" />
+          <Plus className={`w-6 h-6 transition-transform duration-300 ${showFabMenu ? 'rotate-45' : ''}`} />
         </Button>
-      </Link>
+      </div>
     </div>
   );
 };
