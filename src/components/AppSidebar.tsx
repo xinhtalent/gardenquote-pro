@@ -14,6 +14,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { UserProfile } from "@/components/UserProfile";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { Separator } from "@/components/ui/separator";
 
 const items = [
   { title: "Trang chủ", url: "/", icon: Home },
@@ -62,8 +64,13 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t border-border p-4">
-        <UserProfile />
+      <SidebarFooter className="border-t border-border">
+        <div className="p-4 flex items-center justify-between gap-2">
+          <div className="flex-1">
+            <UserProfile />
+          </div>
+          <ThemeToggle />
+        </div>
       </SidebarFooter>
     </Sidebar>
   );

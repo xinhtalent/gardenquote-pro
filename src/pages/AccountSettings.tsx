@@ -1,17 +1,14 @@
 import { useState } from "react";
-import { Camera, Moon, Sun, LogOut } from "lucide-react";
+import { Camera, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 
 const AccountSettings = () => {
   const { toast } = useToast();
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [name, setName] = useState("Nguyễn Văn A");
   const [email] = useState("nguyenvana@example.com");
   const [avatar, setAvatar] = useState("");
@@ -57,15 +54,6 @@ const AccountSettings = () => {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
-  };
-
-  const handleThemeToggle = (checked: boolean) => {
-    setIsDarkMode(checked);
-    document.documentElement.classList.toggle("dark", checked);
-    toast({
-      title: checked ? "Chế độ tối" : "Chế độ sáng",
-      description: `Đã chuyển sang ${checked ? "giao diện tối" : "giao diện sáng"}`,
-    });
   };
 
   const handleLogout = () => {
@@ -170,32 +158,6 @@ const AccountSettings = () => {
               />
             </div>
             <Button onClick={handleChangePassword}>Đổi mật khẩu</Button>
-          </CardContent>
-        </Card>
-
-        {/* Giao diện */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Giao diện</CardTitle>
-            <CardDescription>Tùy chỉnh giao diện ứng dụng theo sở thích của bạn</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                {isDarkMode ? (
-                  <Moon className="h-5 w-5 text-primary" />
-                ) : (
-                  <Sun className="h-5 w-5 text-accent" />
-                )}
-                <div>
-                  <p className="font-medium">Chế độ tối</p>
-                  <p className="text-sm text-muted-foreground">
-                    {isDarkMode ? "Đang sử dụng giao diện tối" : "Đang sử dụng giao diện sáng"}
-                  </p>
-                </div>
-              </div>
-              <Switch checked={isDarkMode} onCheckedChange={handleThemeToggle} />
-            </div>
           </CardContent>
         </Card>
 
