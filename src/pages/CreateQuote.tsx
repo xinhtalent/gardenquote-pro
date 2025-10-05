@@ -14,6 +14,7 @@ interface QuoteItem {
   unit: string;
   quantity: number;
   price: number;
+  category?: string;
 }
 
 const CreateQuote = () => {
@@ -42,10 +43,10 @@ const CreateQuote = () => {
 
   // Mock available items
   const availableItems = [
-    { id: 1, name: "Cây xanh trang trí", unit: "cây", price: 500000, imageUrl: "https://images.unsplash.com/photo-1463320898484-cdee8141c787?w=100&h=100&fit=crop" },
-    { id: 2, name: "Gạch lát sân", unit: "m²", price: 350000, imageUrl: "https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=100&h=100&fit=crop" },
-    { id: 3, name: "Chậu composite", unit: "chậu", price: 800000, imageUrl: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=100&h=100&fit=crop" },
-    { id: 4, name: "Đất trồng dinh dưỡng", unit: "bao", price: 150000, imageUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=100&h=100&fit=crop" },
+    { id: 1, name: "Cây xanh trang trí", unit: "cây", price: 500000, category: "Cây & vật tư phụ", imageUrl: "https://images.unsplash.com/photo-1463320898484-cdee8141c787?w=100&h=100&fit=crop" },
+    { id: 2, name: "Gạch lát sân", unit: "m²", price: 350000, category: "Xây/lát/ốp trát", imageUrl: "https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=100&h=100&fit=crop" },
+    { id: 3, name: "Chậu composite", unit: "chậu", price: 800000, category: "Chậu", imageUrl: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=100&h=100&fit=crop" },
+    { id: 4, name: "Đất trồng dinh dưỡng", unit: "bao", price: 150000, category: "Cây & vật tư phụ", imageUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=100&h=100&fit=crop" },
   ];
 
   const addItem = (itemId: number) => {
@@ -57,7 +58,8 @@ const CreateQuote = () => {
         name: item.name,
         unit: item.unit,
         quantity: 1,
-        price: item.price
+        price: item.price,
+        category: item.category
       }]);
     }
   };
@@ -272,45 +274,62 @@ const CreateQuote = () => {
                   <p>Chưa có hạng mục nào được chọn</p>
                 </div>
               ) : (
-                <div className="space-y-3">
-                  {items.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex items-center gap-4 p-4 border border-border rounded-lg"
-                    >
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-foreground">{item.name}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {formatCurrency(item.price)}/{item.unit}
-                        </p>
+                <div className="space-y-6">
+                  {/* Group items by category */}
+                  {Object.entries(
+                    items.reduce((acc, item) => {
+                      const category = item.category || "Chưa phân loại";
+                      if (!acc[category]) acc[category] = [];
+                      acc[category].push(item);
+                      return acc;
+                    }, {} as Record<string, QuoteItem[]>)
+                  ).map(([category, categoryItems]) => (
+                    <div key={category}>
+                      <h3 className="text-lg font-semibold text-primary mb-3 pb-2 border-b border-primary/20">
+                        {category}
+                      </h3>
+                      <div className="space-y-3">
+                        {categoryItems.map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex items-center gap-4 p-4 border border-border rounded-lg"
+                          >
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-foreground">{item.name}</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {formatCurrency(item.price)}/{item.unit}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Input
+                                type="text"
+                                inputMode="decimal"
+                                value={quantityDisplays[item.id] !== undefined 
+                                  ? quantityDisplays[item.id] 
+                                  : (item.quantity === 0 ? "" : item.quantity)}
+                                onChange={(e) => updateQuantity(item.id, e.target.value)}
+                                onFocus={(e) => e.target.select()}
+                                placeholder="0"
+                                className="w-20 text-center"
+                              />
+                              <span className="text-sm text-muted-foreground min-w-[40px]">
+                                {item.unit}
+                              </span>
+                            </div>
+                            <div className="font-bold text-primary min-w-[120px] text-right">
+                              {formatCurrency(item.quantity * item.price)}
+                            </div>
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="destructive"
+                              onClick={() => removeItem(item.id)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ))}
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Input
-                          type="text"
-                          inputMode="decimal"
-                          value={quantityDisplays[item.id] !== undefined 
-                            ? quantityDisplays[item.id] 
-                            : (item.quantity === 0 ? "" : item.quantity)}
-                          onChange={(e) => updateQuantity(item.id, e.target.value)}
-                          onFocus={(e) => e.target.select()}
-                          placeholder="0"
-                          className="w-20 text-center"
-                        />
-                        <span className="text-sm text-muted-foreground min-w-[40px]">
-                          {item.unit}
-                        </span>
-                      </div>
-                      <div className="font-bold text-primary min-w-[120px] text-right">
-                        {formatCurrency(item.quantity * item.price)}
-                      </div>
-                      <Button
-                        type="button"
-                        size="icon"
-                        variant="destructive"
-                        onClick={() => removeItem(item.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
                     </div>
                   ))}
                 </div>

@@ -25,6 +25,7 @@ const QuoteDetail = () => {
         unit: "cây", 
         quantity: 10, 
         price: 500000,
+        category: "Cây & vật tư phụ",
         image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=200&h=200&fit=crop"
       },
       { 
@@ -33,6 +34,7 @@ const QuoteDetail = () => {
         unit: "m²", 
         quantity: 50, 
         price: 350000,
+        category: "Xây/lát/ốp trát",
         image: "https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?w=200&h=200&fit=crop"
       },
       { 
@@ -41,7 +43,17 @@ const QuoteDetail = () => {
         unit: "chậu", 
         quantity: 5, 
         price: 800000,
+        category: "Chậu",
         image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=200&h=200&fit=crop"
+      },
+      { 
+        id: 4, 
+        name: "Đất trồng dinh dưỡng", 
+        unit: "bao", 
+        quantity: 20, 
+        price: 150000,
+        category: "Cây & vật tư phụ",
+        image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&h=200&fit=crop"
       },
     ],
   };
@@ -209,24 +221,45 @@ const QuoteDetail = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {quote.items.map((item, index) => (
-                      <tr key={item.id} className="border-t border-border">
-                        <td className="px-4 py-3">{index + 1}</td>
-                        <td className="px-4 py-3">
-                          <img 
-                            src={item.image} 
-                            alt={item.name}
-                            className="w-16 h-16 object-cover rounded-md"
-                          />
-                        </td>
-                        <td className="px-4 py-3 font-medium">{item.name}</td>
-                        <td className="px-4 py-3 text-center">{item.unit}</td>
-                        <td className="px-4 py-3 text-center">{item.quantity}</td>
-                        <td className="px-4 py-3 text-right">{formatCurrency(item.price)}</td>
-                        <td className="px-4 py-3 text-right font-semibold">
-                          {formatCurrency(item.quantity * item.price)}
-                        </td>
-                      </tr>
+                    {/* Group items by category */}
+                    {Object.entries(
+                      quote.items.reduce((acc, item) => {
+                        const category = item.category || "Chưa phân loại";
+                        if (!acc[category]) acc[category] = [];
+                        acc[category].push(item);
+                        return acc;
+                      }, {} as Record<string, any[]>)
+                    ).map(([category, categoryItems], categoryIndex) => (
+                      <>
+                        {/* Category header row */}
+                        <tr key={`category-${categoryIndex}`} className="bg-primary/10">
+                          <td colSpan={7} className="px-4 py-2 font-semibold text-primary">
+                            {category}
+                          </td>
+                        </tr>
+                        {/* Items in this category */}
+                        {categoryItems.map((item, itemIndex) => (
+                          <tr key={item.id} className="border-t border-border">
+                            <td className="px-4 py-3">
+                              {quote.items.findIndex(i => i.id === item.id) + 1}
+                            </td>
+                            <td className="px-4 py-3">
+                              <img 
+                                src={item.image} 
+                                alt={item.name}
+                                className="w-16 h-16 object-cover rounded-md"
+                              />
+                            </td>
+                            <td className="px-4 py-3 font-medium">{item.name}</td>
+                            <td className="px-4 py-3 text-center">{item.unit}</td>
+                            <td className="px-4 py-3 text-center">{item.quantity}</td>
+                            <td className="px-4 py-3 text-right">{formatCurrency(item.price)}</td>
+                            <td className="px-4 py-3 text-right font-semibold">
+                              {formatCurrency(item.quantity * item.price)}
+                            </td>
+                          </tr>
+                        ))}
+                      </>
                     ))}
                   </tbody>
                   <tfoot className="bg-secondary/50">
