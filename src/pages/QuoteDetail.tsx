@@ -12,11 +12,33 @@ const QuoteDetail = () => {
     customerName: "Nguyễn Văn A",
     customerPhone: "0901234567",
     customerAddress: "123 Đường ABC, Quận 1, TP.HCM",
+    createdBy: "Nguyễn Thị B - Chuyên viên tư vấn",
     date: "2025-10-05",
     items: [
-      { id: 1, name: "Cây xanh trang trí", unit: "cây", quantity: 10, price: 500000 },
-      { id: 2, name: "Gạch lát sân", unit: "m²", quantity: 50, price: 350000 },
-      { id: 3, name: "Chậu composite", unit: "chậu", quantity: 5, price: 800000 },
+      { 
+        id: 1, 
+        name: "Cây xanh trang trí", 
+        unit: "cây", 
+        quantity: 10, 
+        price: 500000,
+        image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=200&h=200&fit=crop"
+      },
+      { 
+        id: 2, 
+        name: "Gạch lát sân", 
+        unit: "m²", 
+        quantity: 50, 
+        price: 350000,
+        image: "https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?w=200&h=200&fit=crop"
+      },
+      { 
+        id: 3, 
+        name: "Chậu composite", 
+        unit: "chậu", 
+        quantity: 5, 
+        price: 800000,
+        image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=200&h=200&fit=crop"
+      },
     ],
   };
 
@@ -76,6 +98,11 @@ const QuoteDetail = () => {
           <Card className="p-8 mb-6">
             {/* Company Header */}
             <div className="text-center mb-8 pb-6 border-b border-border">
+              <div className="flex justify-center mb-4">
+                <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-primary">ABC</span>
+                </div>
+              </div>
               <h2 className="text-3xl font-bold text-primary mb-2">
                 CÔNG TY SÂN VƯỜN ABC
               </h2>
@@ -105,6 +132,10 @@ const QuoteDetail = () => {
                   <span className="text-muted-foreground">Địa chỉ:</span>
                   <p className="font-semibold">{quote.customerAddress}</p>
                 </div>
+                <div className="col-span-2">
+                  <span className="text-muted-foreground">Người tạo báo giá:</span>
+                  <p className="font-semibold">{quote.createdBy}</p>
+                </div>
               </div>
             </div>
 
@@ -118,6 +149,7 @@ const QuoteDetail = () => {
                   <thead className="bg-secondary">
                     <tr>
                       <th className="px-4 py-3 text-left text-sm font-semibold">STT</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold">Hình ảnh</th>
                       <th className="px-4 py-3 text-left text-sm font-semibold">Hạng mục</th>
                       <th className="px-4 py-3 text-center text-sm font-semibold">Đơn vị</th>
                       <th className="px-4 py-3 text-center text-sm font-semibold">Số lượng</th>
@@ -129,6 +161,13 @@ const QuoteDetail = () => {
                     {quote.items.map((item, index) => (
                       <tr key={item.id} className="border-t border-border">
                         <td className="px-4 py-3">{index + 1}</td>
+                        <td className="px-4 py-3">
+                          <img 
+                            src={item.image} 
+                            alt={item.name}
+                            className="w-16 h-16 object-cover rounded-md"
+                          />
+                        </td>
                         <td className="px-4 py-3 font-medium">{item.name}</td>
                         <td className="px-4 py-3 text-center">{item.unit}</td>
                         <td className="px-4 py-3 text-center">{item.quantity}</td>
@@ -141,7 +180,7 @@ const QuoteDetail = () => {
                   </tbody>
                   <tfoot className="bg-secondary/50">
                     <tr className="border-t-2 border-primary">
-                      <td colSpan={5} className="px-4 py-3 text-right font-bold text-lg">
+                      <td colSpan={6} className="px-4 py-3 text-right font-bold text-lg">
                         Tổng cộng:
                       </td>
                       <td className="px-4 py-3 text-right font-bold text-xl text-primary">
