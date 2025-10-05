@@ -30,59 +30,53 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary-light/10 to-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-primary-light/10 to-background pb-20">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2">
-            Hệ thống Báo giá
+            Dashboard
           </h1>
           <p className="text-muted-foreground">
             Thiết kế & Thi công Ban công - Sân vườn
           </p>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Link to="/create-quote">
-            <Card className="p-6 hover:shadow-medium transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-primary">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-primary/10 rounded-xl">
-                  <Plus className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Tạo báo giá mới</h3>
-                  <p className="text-sm text-muted-foreground">Bắt đầu báo giá mới</p>
-                </div>
-              </div>
-            </Card>
-          </Link>
-
-          <Link to="/item-library">
-            <Card className="p-6 hover:shadow-medium transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-primary">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-accent/10 rounded-xl">
-                  <FileText className="w-6 h-6 text-accent" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Thư viện hạng mục</h3>
-                  <p className="text-sm text-muted-foreground">Quản lý hạng mục</p>
-                </div>
-              </div>
-            </Card>
-          </Link>
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Card className="p-6">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Tổng doanh thu</p>
+              <p className="text-3xl font-bold text-primary">
+                {formatCurrency(70000000)}
+              </p>
+            </div>
+          </Card>
 
           <Card className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-secondary rounded-xl">
-                <Calendar className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground">Tháng này</h3>
-                <p className="text-2xl font-bold text-primary">
-                  {quotes.length}
-                </p>
-              </div>
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Khách hàng mới</p>
+              <p className="text-3xl font-bold text-primary">
+                {quotes.length}
+              </p>
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Tỷ lệ chuyển đổi</p>
+              <p className="text-3xl font-bold text-primary">
+                50%
+              </p>
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Tổng khách hàng</p>
+              <p className="text-3xl font-bold text-primary">
+                2
+              </p>
             </div>
           </Card>
         </div>
@@ -135,6 +129,16 @@ const Dashboard = () => {
           </div>
         </Card>
       </div>
+
+      {/* Floating Action Button */}
+      <Link to="/create-quote">
+        <Button 
+          size="icon"
+          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50"
+        >
+          <Plus className="w-6 h-6" />
+        </Button>
+      </Link>
     </div>
   );
 };
