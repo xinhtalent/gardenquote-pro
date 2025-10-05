@@ -42,10 +42,10 @@ const CreateQuote = () => {
 
   // Mock available items
   const availableItems = [
-    { id: 1, name: "Cây xanh trang trí", unit: "cây", price: 500000 },
-    { id: 2, name: "Gạch lát sân", unit: "m²", price: 350000 },
-    { id: 3, name: "Chậu composite", unit: "chậu", price: 800000 },
-    { id: 4, name: "Đất trồng dinh dưỡng", unit: "bao", price: 150000 },
+    { id: 1, name: "Cây xanh trang trí", unit: "cây", price: 500000, imageUrl: "https://images.unsplash.com/photo-1463320898484-cdee8141c787?w=100&h=100&fit=crop" },
+    { id: 2, name: "Gạch lát sân", unit: "m²", price: 350000, imageUrl: "https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=100&h=100&fit=crop" },
+    { id: 3, name: "Chậu composite", unit: "chậu", price: 800000, imageUrl: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=100&h=100&fit=crop" },
+    { id: 4, name: "Đất trồng dinh dưỡng", unit: "bao", price: 150000, imageUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=100&h=100&fit=crop" },
   ];
 
   const addItem = (itemId: number) => {
@@ -241,16 +241,21 @@ const CreateQuote = () => {
                     key={item.id}
                     type="button"
                     variant="outline"
-                    className="justify-start gap-2 h-auto py-3"
+                    className="justify-start gap-3 h-auto py-2 px-3"
                     onClick={() => addItem(item.id)}
                   >
-                    <Plus className="w-4 h-4" />
-                    <div className="text-left">
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.name}
+                      className="w-12 h-12 object-cover rounded border border-border"
+                    />
+                    <div className="flex-1 text-left">
                       <div className="font-semibold">{item.name}</div>
                       <div className="text-xs text-muted-foreground">
                         {formatCurrency(item.price)}/{item.unit}
                       </div>
                     </div>
+                    <Plus className="w-4 h-4 text-primary" />
                   </Button>
                 ))}
               </div>
