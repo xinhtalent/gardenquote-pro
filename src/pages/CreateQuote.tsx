@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { Plus, Trash2, FileText } from "lucide-react";
+import { Plus, Trash2, FileText, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -18,7 +18,18 @@ interface QuoteItem {
 
 const CreateQuote = () => {
   const navigate = useNavigate();
-  const [quoteId] = useState(`BG${Date.now().toString().slice(-8)}`);
+  
+  // Generate quote ID: XINH-DDMMYYXXX
+  const generateQuoteId = () => {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = String(now.getFullYear()).slice(-2);
+    const sequence = String(Date.now()).slice(-3); // Use last 3 digits of timestamp as sequence
+    return `XINH-${day}${month}${year}${sequence}`;
+  };
+  
+  const [quoteId] = useState(generateQuoteId());
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
@@ -83,6 +94,14 @@ const CreateQuote = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-primary-light/10 to-background">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
+          <Button
+            variant="ghost"
+            onClick={() => navigate(-1)}
+            className="mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Quay lại
+          </Button>
           <h1 className="text-4xl font-bold text-foreground mb-2">
             Tạo Báo giá Mới
           </h1>
