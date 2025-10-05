@@ -9,7 +9,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useState, useEffect } from "react";
+import { formatNumberWithThousands, parseFormattedNumber } from "@/lib/utils";
 
 interface Item {
   id?: number;
@@ -27,6 +35,8 @@ interface ItemDialogProps {
   onSave: (item: Item) => void;
 }
 
+const UNIT_OPTIONS = ["m", "m²", "m³", "cây", "bao", "set", "bộ", "chậu", "kg", "lít", "cái"];
+
 export function ItemDialog({ open, onOpenChange, item, onSave }: ItemDialogProps) {
   const [formData, setFormData] = useState<Item>({
     name: "",
@@ -35,10 +45,12 @@ export function ItemDialog({ open, onOpenChange, item, onSave }: ItemDialogProps
     image: "/placeholder.svg",
     category: "",
   });
+  const [priceDisplay, setPriceDisplay] = useState<string>("");
 
   useEffect(() => {
     if (item) {
       setFormData(item);
+      setPriceDisplay(item.price > 0 ? formatNumberWithThousands(item.price) : "");
     } else {
       setFormData({
         name: "",
@@ -47,8 +59,24 @@ export function ItemDialog({ open, onOpenChange, item, onSave }: ItemDialogProps
         image: "/placeholder.svg",
         category: "",
       });
+      setPriceDisplay("");
     }
   }, [item, open]);
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === "") {
+      setPriceDisplay("");
+      setFormData({ ...formData, price: 0 });
+      return;
+    }
+    
+    const numericValue = parseFormattedNumber(value);
+    if (!isNaN(numericValue)) {
+      setPriceDisplay(formatNumberWithThousands(numericValue));
+      setFormData({ ...formData, price: numericValue });
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,26 +126,33 @@ export function ItemDialog({ open, onOpenChange, item, onSave }: ItemDialogProps
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="unit">Đơn vị *</Label>
-                <Input
-                  id="unit"
+                <Select
                   value={formData.unit}
-                  onChange={(e) =>
-                    setFormData({ ...formData, unit: e.target.value })
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, unit: value })
                   }
-                  placeholder="VD: cây, m², bao"
                   required
-                />
+                >
+                  <SelectTrigger id="unit">
+                    <SelectValue placeholder="Chọn đơn vị" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {UNIT_OPTIONS.map((unit) => (
+                      <SelectItem key={unit} value={unit}>
+                        {unit}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="price">Đơn giá (VNĐ) *</Label>
                 <Input
                   id="price"
-                  type="number"
-                  min="0"
-                  value={formData.price}
-                  onChange={(e) =>
-                    setFormData({ ...formData, price: Number(e.target.value) })
-                  }
+                  type="text"
+                  inputMode="decimal"
+                  value={priceDisplay}
+                  onChange={handlePriceChange}
                   placeholder="0"
                   required
                 />
