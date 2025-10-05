@@ -138,8 +138,8 @@ const CreateQuote = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerName || items.length === 0) {
-      toast.error("Vui lòng điền đầy đủ thông tin khách hàng và thêm ít nhất một hạng mục");
+    if (!customerPhone || items.length === 0) {
+      toast.error("Vui lòng điền số điện thoại khách hàng và thêm ít nhất một hạng mục");
       return;
     }
     toast.success("Báo giá đã được tạo thành công!");
@@ -199,12 +199,13 @@ const CreateQuote = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="customerPhone">Số điện thoại</Label>
+                      <Label htmlFor="customerPhone">Số điện thoại *</Label>
                       <Input
                         id="customerPhone"
                         value={customerPhone}
                         onChange={(e) => setCustomerPhone(e.target.value)}
                         placeholder="0901234567"
+                        required
                       />
                     </div>
                     <div>
