@@ -18,9 +18,12 @@ interface QuoteItem {
 
 const CreateQuote = () => {
   const navigate = useNavigate();
+  const [quoteId] = useState(`BG${Date.now().toString().slice(-8)}`);
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
+  const [creatorName, setCreatorName] = useState("");
+  const [creatorPhone, setCreatorPhone] = useState("");
   const [items, setItems] = useState<QuoteItem[]>([]);
 
   // Mock available items
@@ -90,39 +93,84 @@ const CreateQuote = () => {
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            {/* Customer Info */}
+            {/* Quote ID & Info */}
+            <Card className="p-6 bg-primary/5 border-primary/20">
+              <div className="flex items-center gap-3">
+                <FileText className="w-8 h-8 text-primary" />
+                <div>
+                  <h3 className="text-sm text-muted-foreground">Mã báo giá</h3>
+                  <p className="text-2xl font-bold text-primary">{quoteId}</p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Customer & Creator Info */}
             <Card className="p-6">
-              <h2 className="text-2xl font-bold text-foreground mb-4">
-                Thông tin Khách hàng
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <Label htmlFor="customerName">Tên khách hàng *</Label>
-                  <Input
-                    id="customerName"
-                    value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
-                    placeholder="Nguyễn Văn A"
-                    required
-                  />
+                  <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                    <span className="w-1 h-6 bg-primary rounded"></span>
+                    Thông tin Khách hàng
+                  </h2>
+                  <div className="space-y-3">
+                    <div>
+                      <Label htmlFor="customerName">Tên khách hàng *</Label>
+                      <Input
+                        id="customerName"
+                        value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
+                        placeholder="Nguyễn Văn A"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="customerPhone">Số điện thoại</Label>
+                      <Input
+                        id="customerPhone"
+                        value={customerPhone}
+                        onChange={(e) => setCustomerPhone(e.target.value)}
+                        placeholder="0901234567"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="customerAddress">Địa chỉ</Label>
+                      <Input
+                        id="customerAddress"
+                        value={customerAddress}
+                        onChange={(e) => setCustomerAddress(e.target.value)}
+                        placeholder="123 Đường ABC, Quận XYZ, TP.HCM"
+                      />
+                    </div>
+                  </div>
                 </div>
+
                 <div>
-                  <Label htmlFor="customerPhone">Số điện thoại</Label>
-                  <Input
-                    id="customerPhone"
-                    value={customerPhone}
-                    onChange={(e) => setCustomerPhone(e.target.value)}
-                    placeholder="0901234567"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <Label htmlFor="customerAddress">Địa chỉ</Label>
-                  <Input
-                    id="customerAddress"
-                    value={customerAddress}
-                    onChange={(e) => setCustomerAddress(e.target.value)}
-                    placeholder="123 Đường ABC, Quận XYZ, TP.HCM"
-                  />
+                  <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                    <span className="w-1 h-6 bg-accent rounded"></span>
+                    Người tạo báo giá
+                  </h2>
+                  <div className="space-y-3">
+                    <div>
+                      <Label htmlFor="creatorName">Tên chuyên viên *</Label>
+                      <Input
+                        id="creatorName"
+                        value={creatorName}
+                        onChange={(e) => setCreatorName(e.target.value)}
+                        placeholder="Nguyễn Thị B"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="creatorPhone">Số điện thoại *</Label>
+                      <Input
+                        id="creatorPhone"
+                        value={creatorPhone}
+                        onChange={(e) => setCreatorPhone(e.target.value)}
+                        placeholder="0912345678"
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </Card>

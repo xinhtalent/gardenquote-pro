@@ -12,7 +12,8 @@ const QuoteDetail = () => {
     customerName: "Nguyễn Văn A",
     customerPhone: "0901234567",
     customerAddress: "123 Đường ABC, Quận 1, TP.HCM",
-    createdBy: "Nguyễn Thị B - Chuyên viên tư vấn",
+    createdBy: "Nguyễn Thị B",
+    creatorPhone: "0912345678",
     date: "2025-10-05",
     items: [
       { 
@@ -97,44 +98,77 @@ const QuoteDetail = () => {
           {/* Quote Content */}
           <Card className="p-8 mb-6">
             {/* Company Header */}
-            <div className="text-center mb-8 pb-6 border-b border-border">
-              <div className="flex justify-center mb-4">
-                <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-primary">ABC</span>
+            <div className="mb-8 pb-6 border-b border-border">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-3xl font-bold text-primary">ABC</span>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-primary mb-1">
+                      CÔNG TY SÂN VƯỜN ABC
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      Thiết kế & Thi công Ban công - Sân vườn
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center text-sm">
+                  <p className="text-muted-foreground">
+                    <strong>Hotline:</strong> 0901234567
+                  </p>
+                  <p className="text-muted-foreground">
+                    <strong>Email:</strong> contact@sanvuon.com
+                  </p>
+                  <p className="text-muted-foreground">
+                    <strong>Địa chỉ:</strong> 123 Đường ABC, TP.HCM
+                  </p>
                 </div>
               </div>
-              <h2 className="text-3xl font-bold text-primary mb-2">
-                CÔNG TY SÂN VƯỜN ABC
-              </h2>
-              <p className="text-muted-foreground">
-                Thiết kế & Thi công Ban công - Sân vườn
-              </p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Hotline: 0901234567 | Email: contact@sanvuon.com
-              </p>
             </div>
 
-            {/* Customer Info */}
+            {/* Customer & Creator Info */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-foreground mb-3">
-                Thông tin Khách hàng
-              </h3>
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <span className="text-muted-foreground">Tên khách hàng:</span>
-                  <p className="font-semibold">{quote.customerName}</p>
+                  <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                    <span className="w-1 h-5 bg-primary rounded"></span>
+                    Thông tin Khách hàng
+                  </h3>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Tên khách hàng:</span>
+                      <p className="font-semibold">{quote.customerName}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Số điện thoại:</span>
+                      <p className="font-semibold">{quote.customerPhone}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Địa chỉ:</span>
+                      <p className="font-semibold">{quote.customerAddress}</p>
+                    </div>
+                  </div>
                 </div>
                 <div>
-                  <span className="text-muted-foreground">Số điện thoại:</span>
-                  <p className="font-semibold">{quote.customerPhone}</p>
-                </div>
-                <div className="col-span-2">
-                  <span className="text-muted-foreground">Địa chỉ:</span>
-                  <p className="font-semibold">{quote.customerAddress}</p>
-                </div>
-                <div className="col-span-2">
-                  <span className="text-muted-foreground">Người tạo báo giá:</span>
-                  <p className="font-semibold">{quote.createdBy}</p>
+                  <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                    <span className="w-1 h-5 bg-accent rounded"></span>
+                    Thông tin Báo giá
+                  </h3>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Mã báo giá:</span>
+                      <p className="font-semibold text-primary">#{id}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Người tạo:</span>
+                      <p className="font-semibold">{quote.createdBy}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Số điện thoại:</span>
+                      <p className="font-semibold">{quote.creatorPhone}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
