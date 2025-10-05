@@ -6,6 +6,13 @@ import { useState } from "react";
 import { Plus, Trash2, FileText, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface QuoteItem {
   id: number;
@@ -20,14 +27,14 @@ interface QuoteItem {
 const CreateQuote = () => {
   const navigate = useNavigate();
   
-  // Generate quote ID: XINH-DDMMYYXXX
+  // Generate quote ID: XINH-ddmmyy-xx
   const generateQuoteId = () => {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const year = String(now.getFullYear()).slice(-2);
-    const sequence = String(Date.now()).slice(-3); // Use last 3 digits of timestamp as sequence
-    return `XINH-${day}${month}${year}${sequence}`;
+    const randomNum = String(Math.floor(Math.random() * 99) + 1).padStart(2, '0');
+    return `XINH-${day}${month}${year}-${randomNum}`;
   };
   
   const [quoteId] = useState(generateQuoteId());
@@ -40,6 +47,7 @@ const CreateQuote = () => {
   const [quantityDisplays, setQuantityDisplays] = useState<{[key: number]: string}>({});
   const [discount, setDiscount] = useState("");
   const [vat, setVat] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   // Mock available items
   const availableItems = [
@@ -48,6 +56,14 @@ const CreateQuote = () => {
     { id: 3, name: "Chậu composite", unit: "chậu", price: 800000, category: "Chậu", imageUrl: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=100&h=100&fit=crop" },
     { id: 4, name: "Đất trồng dinh dưỡng", unit: "bao", price: 150000, category: "Cây & vật tư phụ", imageUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=100&h=100&fit=crop" },
   ];
+
+  // Get unique categories
+  const categories = Array.from(new Set(availableItems.map(item => item.category)));
+
+  // Filter items by selected category
+  const filteredAvailableItems = selectedCategory === "all" 
+    ? availableItems 
+    : availableItems.filter(item => item.category === selectedCategory);
 
   const addItem = (itemId: number) => {
     const item = availableItems.find(i => i.id === itemId);
@@ -234,11 +250,26 @@ const CreateQuote = () => {
 
             {/* Available Items */}
             <Card className="p-6">
-              <h2 className="text-2xl font-bold text-foreground mb-4">
-                Chọn Hạng mục
-              </h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-foreground">
+                  Chọn Hạng mục
+                </h2>
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Danh mục" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tất cả</SelectItem>
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {availableItems.map((item) => (
+                {filteredAvailableItems.map((item) => (
                   <Button
                     key={item.id}
                     type="button"

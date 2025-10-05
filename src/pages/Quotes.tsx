@@ -12,7 +12,7 @@ const Quotes = () => {
   const allQuotes = [
     {
       id: 1,
-      quoteCode: "BG20251001",
+      quoteCode: "XINH-011025-15",
       customerName: "Nguyễn Văn A",
       customerPhone: "0912345678",
       date: "2025-10-01",
@@ -21,7 +21,7 @@ const Quotes = () => {
     },
     {
       id: 2,
-      quoteCode: "BG20251003",
+      quoteCode: "XINH-031025-42",
       customerName: "Trần Thị B",
       customerPhone: "0987654321",
       date: "2025-10-03",
@@ -30,7 +30,7 @@ const Quotes = () => {
     },
     {
       id: 3,
-      quoteCode: "BG20251005",
+      quoteCode: "XINH-051025-73",
       customerName: "Lê Văn C",
       customerPhone: "0901234567",
       date: "2025-10-05",
