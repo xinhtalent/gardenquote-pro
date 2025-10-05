@@ -10,6 +10,7 @@ import Quotes from "./pages/Quotes";
 import ItemLibrary from "./pages/ItemLibrary";
 import CreateQuote from "./pages/CreateQuote";
 import QuoteDetail from "./pages/QuoteDetail";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
                   <Route path="/item-library" element={<ItemLibrary />} />
                   <Route path="/create-quote" element={<CreateQuote />} />
                   <Route path="/quote/:id" element={<QuoteDetail />} />
+                  <Route path="/settings" element={<Settings />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

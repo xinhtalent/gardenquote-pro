@@ -1,4 +1,4 @@
-import { Home, Package, FileText } from "lucide-react";
+import { Home, Package, FileText, Settings } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 import {
@@ -17,6 +17,7 @@ const items = [
   { title: "Trang chủ", url: "/", icon: Home },
   { title: "Báo giá", url: "/quotes", icon: FileText },
   { title: "Thư viện hạng mục", url: "/item-library", icon: Package },
+  { title: "Cài đặt", url: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
