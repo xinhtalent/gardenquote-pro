@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Plus, FileText, DollarSign, UserPlus, TrendingUp, Users } from "lucide-react";
+import { Plus, FileText, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
@@ -44,59 +44,39 @@ const Dashboard = () => {
 
         {/* KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-start justify-between">
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">Tổng doanh thu</p>
-                <p className="text-3xl font-bold text-primary">
-                  {formatCurrency(70000000)}
-                </p>
-              </div>
-              <div className="p-3 bg-primary/10 rounded-lg">
-                <DollarSign className="w-6 h-6 text-primary" />
-              </div>
+          <Card className="p-6">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Tổng doanh thu</p>
+              <p className="text-3xl font-bold text-primary">
+                {formatCurrency(70000000)}
+              </p>
             </div>
           </Card>
 
-          <Card className="p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-start justify-between">
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">Khách hàng mới</p>
-                <p className="text-3xl font-bold text-emerald-600">
-                  {quotes.length}
-                </p>
-              </div>
-              <div className="p-3 bg-emerald-100 rounded-lg">
-                <UserPlus className="w-6 h-6 text-emerald-600" />
-              </div>
+          <Card className="p-6">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Khách hàng mới</p>
+              <p className="text-3xl font-bold text-primary">
+                {quotes.length}
+              </p>
             </div>
           </Card>
 
-          <Card className="p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-start justify-between">
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">Tỷ lệ chuyển đổi</p>
-                <p className="text-3xl font-bold text-orange-600">
-                  50%
-                </p>
-              </div>
-              <div className="p-3 bg-orange-100 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-orange-600" />
-              </div>
+          <Card className="p-6">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Tỷ lệ chuyển đổi</p>
+              <p className="text-3xl font-bold text-primary">
+                50%
+              </p>
             </div>
           </Card>
 
-          <Card className="p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-start justify-between">
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">Tổng khách hàng</p>
-                <p className="text-3xl font-bold text-blue-600">
-                  2
-                </p>
-              </div>
-              <div className="p-3 bg-blue-100 rounded-lg">
-                <Users className="w-6 h-6 text-blue-600" />
-              </div>
+          <Card className="p-6">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">Tổng khách hàng</p>
+              <p className="text-3xl font-bold text-primary">
+                2
+              </p>
             </div>
           </Card>
         </div>
