@@ -162,27 +162,39 @@ const Dashboard = () => {
 
       {/* Floating Action Button with Menu */}
       <div className="fixed bottom-6 right-6 z-50">
+        {/* Backdrop */}
+        {showFabMenu && (
+          <div 
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm -z-10 animate-fade-in"
+            onClick={() => setShowFabMenu(false)}
+          />
+        )}
+        
         {/* Menu Options */}
         {showFabMenu && (
-          <div className="absolute bottom-20 right-0 flex flex-col gap-3 mb-2 animate-fade-in">
+          <div className="absolute bottom-20 right-0 flex flex-col gap-3 mb-2 animate-scale-in">
             <Link to="/create-quote">
               <Button 
-                variant="secondary"
-                className="flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
+                size="lg"
+                className="flex items-center gap-3 shadow-xl hover:shadow-2xl transition-all duration-300 whitespace-nowrap bg-card hover:bg-card/90 text-foreground border-2 border-border min-w-[180px] justify-start"
                 onClick={() => setShowFabMenu(false)}
               >
-                <FileText className="w-5 h-5" />
-                <span>Thêm báo giá</span>
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <FileText className="w-5 h-5 text-primary" />
+                </div>
+                <span className="font-medium">Thêm báo giá</span>
               </Button>
             </Link>
             <Link to="/item-library">
               <Button 
-                variant="secondary"
-                className="flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap"
+                size="lg"
+                className="flex items-center gap-3 shadow-xl hover:shadow-2xl transition-all duration-300 whitespace-nowrap bg-card hover:bg-card/90 text-foreground border-2 border-border min-w-[180px] justify-start"
                 onClick={() => setShowFabMenu(false)}
               >
-                <Package className="w-5 h-5" />
-                <span>Thêm hạng mục</span>
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <Package className="w-5 h-5 text-primary" />
+                </div>
+                <span className="font-medium">Thêm hạng mục</span>
               </Button>
             </Link>
           </div>
