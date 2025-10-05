@@ -29,7 +29,7 @@ export function AppSidebar() {
       className={open ? "w-64" : "w-16"} 
       collapsible="icon"
     >
-      <SidebarContent className="pt-4">
+      <SidebarContent className="pt-4 bg-card">
         <SidebarGroup>
           <SidebarGroupLabel className={!open ? "sr-only" : "px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider"}>
             Menu
@@ -45,8 +45,8 @@ export function AppSidebar() {
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 ${
                           isActive
-                            ? "bg-primary/10 text-primary font-semibold shadow-soft"
-                            : "text-foreground hover:bg-secondary hover:text-primary"
+                            ? "bg-primary text-primary-foreground font-semibold shadow-md"
+                            : "text-foreground hover:bg-primary/20 hover:text-primary"
                         }`
                       }
                     >

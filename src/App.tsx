@@ -27,8 +27,16 @@ const App = () => (
           <div className="min-h-screen flex w-full">
             <AppSidebar />
             <div className="flex-1 flex flex-col w-full">
-              <header className="h-14 border-b border-border bg-background flex items-center px-4 sticky top-0 z-10">
+              <header className="h-14 border-b border-border bg-background flex items-center justify-between px-4 sticky top-0 z-10">
                 <SidebarTrigger />
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span className="text-sm font-bold text-primary">ABC</span>
+                  </div>
+                  <span className="text-sm font-semibold text-foreground hidden sm:inline">
+                    Công ty Sân Vườn ABC
+                  </span>
+                </div>
               </header>
               <main className="flex-1">
                 <Routes>

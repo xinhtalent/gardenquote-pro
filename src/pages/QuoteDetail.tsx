@@ -107,21 +107,9 @@ const QuoteDetail = () => {
                 Báo giá #{id}
               </h1>
             </div>
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-              <p className="text-muted-foreground">
-                Ngày tạo: {new Date(quote.date).toLocaleDateString('vi-VN')}
-              </p>
-              <div className="flex gap-2">
-                <Button variant="outline" className="flex-1 sm:flex-none gap-2">
-                  <Printer className="w-4 h-4" />
-                  <span className="hidden sm:inline">In</span>
-                </Button>
-                <Button className="flex-1 sm:flex-none gap-2" onClick={handleDownloadPDF}>
-                  <Download className="w-4 h-4" />
-                  <span className="hidden sm:inline">Tải PDF</span>
-                </Button>
-              </div>
-            </div>
+            <p className="text-muted-foreground">
+              Ngày tạo: {new Date(quote.date).toLocaleDateString('vi-VN')}
+            </p>
           </div>
 
           {/* Quote Content */}
@@ -357,6 +345,18 @@ const QuoteDetail = () => {
               </p>
             </div>
           </Card>
+
+          {/* Action Buttons */}
+          <div className="flex gap-3 mt-6">
+            <Button variant="outline" className="flex-1 gap-2" onClick={() => window.print()}>
+              <Printer className="w-4 h-4" />
+              In báo giá
+            </Button>
+            <Button className="flex-1 gap-2" onClick={handleDownloadPDF}>
+              <Download className="w-4 h-4" />
+              Tải PDF
+            </Button>
+          </div>
         </div>
       </div>
     </div>
