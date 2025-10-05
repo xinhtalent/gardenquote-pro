@@ -47,10 +47,10 @@ export function AppSidebar() {
                       to={item.url}
                       end
                       className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 relative ${
+                        `flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 ${
                           isActive
-                            ? "bg-primary text-primary-foreground font-semibold shadow-md before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-8 before:bg-primary-foreground before:rounded-r-full"
-                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                            ? "bg-primary/10 text-primary font-semibold shadow-soft"
+                            : "text-foreground hover:bg-secondary hover:text-primary"
                         }`
                       }
                     >
