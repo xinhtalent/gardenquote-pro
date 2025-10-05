@@ -16,6 +16,8 @@ const QuoteDetail = () => {
     createdBy: "Nguyễn Thị B",
     creatorPhone: "0912345678",
     date: "2025-10-05",
+    discount: 10, // percentage - set to 0 or undefined to hide
+    vat: 10, // percentage - set to 0 or undefined to hide
     items: [
       { 
         id: 1, 
@@ -44,7 +46,11 @@ const QuoteDetail = () => {
     ],
   };
 
-  const total = quote.items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+  const subtotal = quote.items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+  const discountAmount = quote.discount ? (subtotal * quote.discount) / 100 : 0;
+  const afterDiscount = subtotal - discountAmount;
+  const vatAmount = quote.vat ? (afterDiscount * quote.vat) / 100 : 0;
+  const total = afterDiscount + vatAmount;
   const bankInfo = {
     bankName: "Vietcombank",
     accountNumber: "1234567890",
@@ -224,6 +230,34 @@ const QuoteDetail = () => {
                     ))}
                   </tbody>
                   <tfoot className="bg-secondary/50">
+                    <tr className="border-t border-border">
+                      <td colSpan={6} className="px-4 py-3 text-right font-semibold">
+                        Tạm tính:
+                      </td>
+                      <td className="px-4 py-3 text-right font-semibold">
+                        {formatCurrency(subtotal)}
+                      </td>
+                    </tr>
+                    {quote.discount && quote.discount > 0 && (
+                      <tr>
+                        <td colSpan={6} className="px-4 py-2 text-right text-muted-foreground">
+                          Chiết khấu ({quote.discount}%):
+                        </td>
+                        <td className="px-4 py-2 text-right text-muted-foreground">
+                          -{formatCurrency(discountAmount)}
+                        </td>
+                      </tr>
+                    )}
+                    {quote.vat && quote.vat > 0 && (
+                      <tr>
+                        <td colSpan={6} className="px-4 py-2 text-right text-muted-foreground">
+                          VAT ({quote.vat}%):
+                        </td>
+                        <td className="px-4 py-2 text-right text-muted-foreground">
+                          +{formatCurrency(vatAmount)}
+                        </td>
+                      </tr>
+                    )}
                     <tr className="border-t-2 border-primary">
                       <td colSpan={6} className="px-4 py-3 text-right font-bold text-lg">
                         Tổng cộng:

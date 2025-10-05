@@ -37,6 +37,8 @@ const CreateQuote = () => {
   const [creatorPhone, setCreatorPhone] = useState("");
   const [items, setItems] = useState<QuoteItem[]>([]);
   const [quantityDisplays, setQuantityDisplays] = useState<{[key: number]: string}>({});
+  const [discount, setDiscount] = useState("");
+  const [vat, setVat] = useState("");
 
   // Mock available items
   const availableItems = [
@@ -96,6 +98,14 @@ const CreateQuote = () => {
   };
 
   const calculateTotal = () => {
+    const subtotal = items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+    const discountAmount = discount ? (subtotal * parseFloat(discount)) / 100 : 0;
+    const afterDiscount = subtotal - discountAmount;
+    const vatAmount = vat ? (afterDiscount * parseFloat(vat)) / 100 : 0;
+    return afterDiscount + vatAmount;
+  };
+
+  const getSubtotal = () => {
     return items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
   };
 
@@ -113,7 +123,7 @@ const CreateQuote = () => {
       return;
     }
     toast.success("Báo giá đã được tạo thành công!");
-    navigate("/");
+    navigate("/quotes");
   };
 
   return (
@@ -320,8 +330,61 @@ const CreateQuote = () => {
                     {items.reduce((sum, item) => sum + item.quantity, 0)}
                   </span>
                 </div>
-                <div className="border-t border-border pt-3 mt-3">
-                  <div className="flex justify-between items-center">
+                <div className="border-t border-border pt-3 mt-3 space-y-2">
+                  <div className="flex justify-between text-muted-foreground">
+                    <span>Tạm tính:</span>
+                    <span className="font-semibold">
+                      {formatCurrency(getSubtotal())}
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="discount" className="text-sm">Chiết khấu (%)</Label>
+                    <Input
+                      id="discount"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.01"
+                      value={discount}
+                      onChange={(e) => setDiscount(e.target.value)}
+                      placeholder="0"
+                      className="h-9"
+                    />
+                  </div>
+
+                  {discount && parseFloat(discount) > 0 && (
+                    <div className="flex justify-between text-sm text-muted-foreground">
+                      <span>Giảm giá ({discount}%):</span>
+                      <span>-{formatCurrency((getSubtotal() * parseFloat(discount)) / 100)}</span>
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <Label htmlFor="vat" className="text-sm">VAT (%)</Label>
+                    <Input
+                      id="vat"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.01"
+                      value={vat}
+                      onChange={(e) => setVat(e.target.value)}
+                      placeholder="0"
+                      className="h-9"
+                    />
+                  </div>
+
+                  {vat && parseFloat(vat) > 0 && (
+                    <div className="flex justify-between text-sm text-muted-foreground">
+                      <span>VAT ({vat}%):</span>
+                      <span>
+                        +{formatCurrency(((getSubtotal() - (discount ? (getSubtotal() * parseFloat(discount)) / 100 : 0)) * parseFloat(vat)) / 100)}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="flex justify-between items-center pt-2 border-t border-border">
                     <span className="text-lg font-semibold text-foreground">
                       Tổng cộng:
                     </span>
