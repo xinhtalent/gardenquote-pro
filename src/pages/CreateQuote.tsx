@@ -59,10 +59,22 @@ const CreateQuote = () => {
     }
   };
 
-  const updateQuantity = (id: number, quantity: number) => {
-    setItems(items.map(item => 
-      item.id === id ? { ...item, quantity: Math.max(0, quantity) } : item
-    ));
+  const updateQuantity = (id: number, value: string) => {
+    setItems(items.map(item => {
+      if (item.id === id) {
+        // Allow empty string or valid decimal number
+        if (value === "") {
+          return { ...item, quantity: 0 };
+        }
+        // Remove leading zeros but keep decimal numbers
+        const cleanValue = value.replace(/^0+(?=\d)/, '');
+        const numValue = parseFloat(cleanValue);
+        if (!isNaN(numValue) && numValue >= 0) {
+          return { ...item, quantity: numValue };
+        }
+      }
+      return item;
+    }));
   };
 
   const removeItem = (id: number) => {
@@ -245,10 +257,12 @@ const CreateQuote = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <Input
-                          type="number"
-                          min="0"
-                          value={item.quantity}
-                          onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 0)}
+                          type="text"
+                          inputMode="decimal"
+                          value={item.quantity === 0 ? "" : item.quantity}
+                          onChange={(e) => updateQuantity(item.id, e.target.value)}
+                          onFocus={(e) => e.target.select()}
+                          placeholder="0"
                           className="w-20 text-center"
                         />
                         <span className="text-sm text-muted-foreground min-w-[40px]">
