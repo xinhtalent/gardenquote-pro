@@ -78,11 +78,11 @@ const Settings = () => {
                 </p>
               </div>
               {logoPreview && (
-                <div className="w-32 h-32 border-2 border-border rounded-lg overflow-hidden bg-background">
+                <div className="w-32 h-32 border-2 border-border rounded-full overflow-hidden bg-background flex items-center justify-center">
                   <img
                     src={logoPreview}
                     alt="Logo preview"
-                    className="w-full h-full object-contain p-2"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               )}
