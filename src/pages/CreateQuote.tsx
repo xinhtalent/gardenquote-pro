@@ -36,6 +36,7 @@ const CreateQuote = () => {
   const [creatorName, setCreatorName] = useState("");
   const [creatorPhone, setCreatorPhone] = useState("");
   const [items, setItems] = useState<QuoteItem[]>([]);
+  const [quantityDisplays, setQuantityDisplays] = useState<{[key: number]: string}>({});
 
   // Mock available items
   const availableItems = [
@@ -60,15 +61,22 @@ const CreateQuote = () => {
   };
 
   const updateQuantity = (id: number, value: string) => {
+    // Update display value immediately to keep decimal point
+    setQuantityDisplays(prev => ({
+      ...prev,
+      [id]: value
+    }));
+
     setItems(items.map(item => {
       if (item.id === id) {
-        // Allow empty string or valid decimal number
+        // Allow empty string
         if (value === "") {
           return { ...item, quantity: 0 };
         }
         // Remove leading zeros but keep decimal numbers
         const cleanValue = value.replace(/^0+(?=\d)/, '');
         const numValue = parseFloat(cleanValue);
+        // Only update if it's a valid number
         if (!isNaN(numValue) && numValue >= 0) {
           return { ...item, quantity: numValue };
         }
@@ -79,6 +87,12 @@ const CreateQuote = () => {
 
   const removeItem = (id: number) => {
     setItems(items.filter(item => item.id !== id));
+    // Clean up display value when removing item
+    setQuantityDisplays(prev => {
+      const newDisplays = { ...prev };
+      delete newDisplays[id];
+      return newDisplays;
+    });
   };
 
   const calculateTotal = () => {
@@ -259,7 +273,9 @@ const CreateQuote = () => {
                         <Input
                           type="text"
                           inputMode="decimal"
-                          value={item.quantity === 0 ? "" : item.quantity}
+                          value={quantityDisplays[item.id] !== undefined 
+                            ? quantityDisplays[item.id] 
+                            : (item.quantity === 0 ? "" : item.quantity)}
                           onChange={(e) => updateQuantity(item.id, e.target.value)}
                           onFocus={(e) => e.target.select()}
                           placeholder="0"
