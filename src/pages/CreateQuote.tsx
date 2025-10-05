@@ -41,8 +41,10 @@ const CreateQuote = () => {
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
-  const [creatorName, setCreatorName] = useState("");
-  const [creatorPhone, setCreatorPhone] = useState("");
+  
+  // Load thông tin người tạo từ Settings (mock - sẽ load từ database)
+  const [creatorName, setCreatorName] = useState("Nguyễn Thị B");
+  const [creatorPhone, setCreatorPhone] = useState("0912345678");
   const [items, setItems] = useState<QuoteItem[]>([]);
   const [quantityDisplays, setQuantityDisplays] = useState<{[key: number]: string}>({});
   const [discount, setDiscount] = useState("");

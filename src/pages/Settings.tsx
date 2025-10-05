@@ -10,10 +10,15 @@ import { toast } from "sonner";
 const Settings = () => {
   // Mock data - sẽ load từ database sau
   const [companyName, setCompanyName] = useState("Công ty TNHH Cây Xanh Xinh");
+  const [tagline, setTagline] = useState("Mang thiên nhiên đến từng không gian");
+  const [hotline, setHotline] = useState("0901234567");
   const [companyAddress, setCompanyAddress] = useState("123 Đường ABC, Quận 1, TP.HCM");
-  const [companyPhone, setCompanyPhone] = useState("0901234567");
+  const [website, setWebsite] = useState("www.cayxanhxinh.com");
   const [companyEmail, setCompanyEmail] = useState("contact@cayxanhxinh.com");
   const [companyTaxCode, setCompanyTaxCode] = useState("0123456789");
+  
+  const [creatorName, setCreatorName] = useState("Nguyễn Thị B");
+  const [creatorPhone, setCreatorPhone] = useState("0912345678");
   
   const [bankName, setBankName] = useState("Ngân hàng TMCP Á Châu (ACB)");
   const [bankAccountNumber, setBankAccountNumber] = useState("123456789012");
@@ -101,6 +106,35 @@ const Settings = () => {
                 />
               </div>
               <div>
+                <Label htmlFor="tagline">Tagline</Label>
+                <Input
+                  id="tagline"
+                  value={tagline}
+                  onChange={(e) => setTagline(e.target.value)}
+                  placeholder="Slogan công ty của bạn"
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="hotline">Hotline *</Label>
+                  <Input
+                    id="hotline"
+                    value={hotline}
+                    onChange={(e) => setHotline(e.target.value)}
+                    placeholder="0901234567"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="website">Website</Label>
+                  <Input
+                    id="website"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    placeholder="www.company.com"
+                  />
+                </div>
+              </div>
+              <div>
                 <Label htmlFor="companyAddress">Địa chỉ *</Label>
                 <Textarea
                   id="companyAddress"
@@ -112,15 +146,6 @@ const Settings = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="companyPhone">Số điện thoại *</Label>
-                  <Input
-                    id="companyPhone"
-                    value={companyPhone}
-                    onChange={(e) => setCompanyPhone(e.target.value)}
-                    placeholder="0901234567"
-                  />
-                </div>
-                <div>
                   <Label htmlFor="companyEmail">Email</Label>
                   <Input
                     id="companyEmail"
@@ -130,14 +155,45 @@ const Settings = () => {
                     placeholder="contact@company.com"
                   />
                 </div>
+                <div>
+                  <Label htmlFor="companyTaxCode">Mã số thuế</Label>
+                  <Input
+                    id="companyTaxCode"
+                    value={companyTaxCode}
+                    onChange={(e) => setCompanyTaxCode(e.target.value)}
+                    placeholder="0123456789"
+                  />
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Thông tin người tạo báo giá */}
+          <Card className="p-6">
+            <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
+              <Building2 className="w-6 h-6 text-primary" />
+              Thông tin người tạo báo giá mặc định
+            </h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              Thông tin này sẽ được điền sẵn khi tạo báo giá mới (có thể chỉnh sửa)
+            </p>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="creatorName">Tên chuyên viên *</Label>
+                <Input
+                  id="creatorName"
+                  value={creatorName}
+                  onChange={(e) => setCreatorName(e.target.value)}
+                  placeholder="Nguyễn Văn A"
+                />
               </div>
               <div>
-                <Label htmlFor="companyTaxCode">Mã số thuế</Label>
+                <Label htmlFor="creatorPhone">Số điện thoại *</Label>
                 <Input
-                  id="companyTaxCode"
-                  value={companyTaxCode}
-                  onChange={(e) => setCompanyTaxCode(e.target.value)}
-                  placeholder="0123456789"
+                  id="creatorPhone"
+                  value={creatorPhone}
+                  onChange={(e) => setCreatorPhone(e.target.value)}
+                  placeholder="0912345678"
                 />
               </div>
             </div>
