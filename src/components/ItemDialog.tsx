@@ -35,7 +35,20 @@ interface ItemDialogProps {
   onSave: (item: Item) => void;
 }
 
-const UNIT_OPTIONS = ["m", "m²", "m³", "cây", "bao", "set", "bộ", "chậu", "kg", "lít", "cái"];
+const UNIT_OPTIONS = ["m", "m2", "m3", "set", "chiếc", "bao", "cây", "gói", "năm", "VC", "CT"];
+
+const CATEGORY_OPTIONS = [
+  "Chậu",
+  "Cây & vật tư phụ",
+  "Phụ kiện",
+  "Hệ thống điện decor",
+  "Xây/lát/ốp trát",
+  "Đá cuội decor",
+  "Hệ thống nước",
+  "Vận chuyển + Công thợ",
+  "Bảo hành/bảo dưỡng",
+  "Thiết kế"
+];
 
 export function ItemDialog({ open, onOpenChange, item, onSave }: ItemDialogProps) {
   const [formData, setFormData] = useState<Item>({
@@ -112,16 +125,24 @@ export function ItemDialog({ open, onOpenChange, item, onSave }: ItemDialogProps
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="category">Danh mục *</Label>
-              <Input
-                id="category"
+              <Label htmlFor="category">Danh mục</Label>
+              <Select
                 value={formData.category}
-                onChange={(e) =>
-                  setFormData({ ...formData, category: e.target.value })
+                onValueChange={(value) =>
+                  setFormData({ ...formData, category: value })
                 }
-                placeholder="VD: Cây cảnh"
-                required
-              />
+              >
+                <SelectTrigger id="category">
+                  <SelectValue placeholder="Chọn danh mục" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CATEGORY_OPTIONS.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
