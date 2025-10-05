@@ -62,11 +62,24 @@ const CreateQuote = () => {
   };
 
   const updateQuantity = (id: number, quantity: string) => {
+    // Allow empty string, decimal numbers, and remove leading zeros
+    if (quantity === '') {
+      setItems(items.map(item => 
+        item.id === id ? { ...item, quantity: 0 } : item
+      ));
+      return;
+    }
+    
+    // Remove leading zeros but keep decimal point and numbers after it
     let cleanValue = quantity.replace(/^0+(?=\d)/, '');
-    const numValue = parseFloat(cleanValue) || 0;
-    setItems(items.map(item => 
-      item.id === id ? { ...item, quantity: Math.max(0, numValue) } : item
-    ));
+    // Parse as float to support decimals
+    const numValue = parseFloat(cleanValue);
+    
+    if (!isNaN(numValue) && numValue >= 0) {
+      setItems(items.map(item => 
+        item.id === id ? { ...item, quantity: numValue } : item
+      ));
+    }
   };
 
   const removeItem = (id: number) => {
@@ -257,12 +270,13 @@ const CreateQuote = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <Input
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          value={item.quantity}
+                          type="text"
+                          inputMode="decimal"
+                          value={item.quantity === 0 ? '' : item.quantity}
                           onChange={(e) => updateQuantity(item.id, e.target.value)}
+                          onFocus={(e) => e.target.select()}
                           className="w-20 text-center"
+                          placeholder="0"
                         />
                         <span className="text-sm text-muted-foreground min-w-[40px]">
                           {item.unit}

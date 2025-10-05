@@ -67,9 +67,12 @@ export function ItemDialog({ open, onOpenChange, item, onSave }: ItemDialogProps
   };
 
   const handlePriceChange = (value: string) => {
-    const formatted = formatNumberWithThousands(value);
+    // Parse the number first to get clean value
+    const numericValue = parseFormattedNumber(value);
+    // Format for display with thousand separators
+    const formatted = value ? formatNumberWithThousands(value) : '';
     setPriceDisplay(formatted);
-    setFormData({ ...formData, price: parseFormattedNumber(value) });
+    setFormData({ ...formData, price: numericValue });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
