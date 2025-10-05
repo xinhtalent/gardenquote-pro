@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Plus, FileText, Calendar } from "lucide-react";
+import { Plus, FileText, DollarSign, UserPlus, TrendingUp, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
@@ -43,40 +43,60 @@ const Dashboard = () => {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="p-6">
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Tổng doanh thu</p>
-              <p className="text-3xl font-bold text-primary">
-                {formatCurrency(70000000)}
-              </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+          <Card className="p-5 hover:shadow-lg transition-all duration-300 animate-fade-in overflow-hidden">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-muted-foreground mb-2">Tổng doanh thu</p>
+                <p className="text-2xl md:text-3xl font-bold text-foreground truncate">
+                  {formatCurrency(70000000)}
+                </p>
+              </div>
+              <div className="flex-shrink-0 p-3 bg-emerald-500/10 rounded-xl">
+                <DollarSign className="w-7 h-7 text-emerald-500" />
+              </div>
             </div>
           </Card>
 
-          <Card className="p-6">
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Khách hàng mới</p>
-              <p className="text-3xl font-bold text-primary">
-                {quotes.length}
-              </p>
+          <Card className="p-5 hover:shadow-lg transition-all duration-300 animate-fade-in overflow-hidden" style={{ animationDelay: '0.1s' }}>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-muted-foreground mb-2">Khách hàng mới</p>
+                <p className="text-2xl md:text-3xl font-bold text-foreground">
+                  {quotes.length}
+                </p>
+              </div>
+              <div className="flex-shrink-0 p-3 bg-blue-500/10 rounded-xl">
+                <UserPlus className="w-7 h-7 text-blue-500" />
+              </div>
             </div>
           </Card>
 
-          <Card className="p-6">
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Tỷ lệ chuyển đổi</p>
-              <p className="text-3xl font-bold text-primary">
-                50%
-              </p>
+          <Card className="p-5 hover:shadow-lg transition-all duration-300 animate-fade-in overflow-hidden" style={{ animationDelay: '0.2s' }}>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-muted-foreground mb-2">Tỷ lệ chuyển đổi</p>
+                <p className="text-2xl md:text-3xl font-bold text-foreground">
+                  50%
+                </p>
+              </div>
+              <div className="flex-shrink-0 p-3 bg-amber-500/10 rounded-xl">
+                <TrendingUp className="w-7 h-7 text-amber-500" />
+              </div>
             </div>
           </Card>
 
-          <Card className="p-6">
-            <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Tổng khách hàng</p>
-              <p className="text-3xl font-bold text-primary">
-                2
-              </p>
+          <Card className="p-5 hover:shadow-lg transition-all duration-300 animate-fade-in overflow-hidden" style={{ animationDelay: '0.3s' }}>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-muted-foreground mb-2">Tổng khách hàng</p>
+                <p className="text-2xl md:text-3xl font-bold text-foreground">
+                  2
+                </p>
+              </div>
+              <div className="flex-shrink-0 p-3 bg-purple-500/10 rounded-xl">
+                <Users className="w-7 h-7 text-purple-500" />
+              </div>
             </div>
           </Card>
         </div>
