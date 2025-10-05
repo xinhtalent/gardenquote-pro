@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import Dashboard from "./pages/Dashboard";
+import Quotes from "./pages/Quotes";
 import ItemLibrary from "./pages/ItemLibrary";
 import CreateQuote from "./pages/CreateQuote";
 import QuoteDetail from "./pages/QuoteDetail";
@@ -29,6 +30,7 @@ const App = () => (
               <main className="flex-1">
                 <Routes>
                   <Route path="/" element={<Dashboard />} />
+                  <Route path="/quotes" element={<Quotes />} />
                   <Route path="/item-library" element={<ItemLibrary />} />
                   <Route path="/create-quote" element={<CreateQuote />} />
                   <Route path="/quote/:id" element={<QuoteDetail />} />

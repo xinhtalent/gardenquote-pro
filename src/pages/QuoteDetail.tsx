@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Download, Printer } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { Download, Printer, ArrowLeft } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
 
 const QuoteDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   // Mock data - sẽ thay bằng dữ liệu thực từ database
   const quote = {
@@ -71,27 +72,37 @@ const QuoteDetail = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary-light/10 to-background">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-6 md:py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="mb-8 flex justify-between items-start">
-            <div>
-              <h1 className="text-4xl font-bold text-foreground mb-2">
+          <div className="mb-6 md:mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={() => navigate(-1)}
+                className="shrink-0"
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </Button>
+              <h1 className="text-2xl md:text-4xl font-bold text-foreground">
                 Báo giá #{id}
               </h1>
+            </div>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
               <p className="text-muted-foreground">
                 Ngày tạo: {new Date(quote.date).toLocaleDateString('vi-VN')}
               </p>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" className="gap-2">
-                <Printer className="w-4 h-4" />
-                In
-              </Button>
-              <Button className="gap-2" onClick={handleDownloadPDF}>
-                <Download className="w-4 h-4" />
-                Tải PDF
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" className="flex-1 sm:flex-none gap-2">
+                  <Printer className="w-4 h-4" />
+                  <span className="hidden sm:inline">In</span>
+                </Button>
+                <Button className="flex-1 sm:flex-none gap-2" onClick={handleDownloadPDF}>
+                  <Download className="w-4 h-4" />
+                  <span className="hidden sm:inline">Tải PDF</span>
+                </Button>
+              </div>
             </div>
           </div>
 
