@@ -36,6 +36,8 @@ const CreateQuote = () => {
   const [creatorName, setCreatorName] = useState("");
   const [creatorPhone, setCreatorPhone] = useState("");
   const [items, setItems] = useState<QuoteItem[]>([]);
+  const [discount, setDiscount] = useState<number>(0);
+  const [vat, setVat] = useState<number>(0);
 
   // Mock available items
   const availableItems = [
@@ -59,9 +61,11 @@ const CreateQuote = () => {
     }
   };
 
-  const updateQuantity = (id: number, quantity: number) => {
+  const updateQuantity = (id: number, quantity: string) => {
+    let cleanValue = quantity.replace(/^0+(?=\d)/, '');
+    const numValue = parseFloat(cleanValue) || 0;
     setItems(items.map(item => 
-      item.id === id ? { ...item, quantity: Math.max(0, quantity) } : item
+      item.id === id ? { ...item, quantity: Math.max(0, numValue) } : item
     ));
   };
 
@@ -69,8 +73,16 @@ const CreateQuote = () => {
     setItems(items.filter(item => item.id !== id));
   };
 
-  const calculateTotal = () => {
+  const calculateSubtotal = () => {
     return items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+  };
+
+  const calculateTotal = () => {
+    const subtotal = calculateSubtotal();
+    const discountAmount = (subtotal * discount) / 100;
+    const afterDiscount = subtotal - discountAmount;
+    const vatAmount = (afterDiscount * vat) / 100;
+    return afterDiscount + vatAmount;
   };
 
   const formatCurrency = (amount: number) => {
@@ -246,9 +258,10 @@ const CreateQuote = () => {
                       <div className="flex items-center gap-2">
                         <Input
                           type="number"
+                          step="0.01"
                           min="0"
                           value={item.quantity}
-                          onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 0)}
+                          onChange={(e) => updateQuantity(item.id, e.target.value)}
                           className="w-20 text-center"
                         />
                         <span className="text-sm text-muted-foreground min-w-[40px]">
@@ -287,11 +300,43 @@ const CreateQuote = () => {
                 <div className="flex justify-between text-muted-foreground">
                   <span>Tổng số lượng:</span>
                   <span className="font-semibold">
-                    {items.reduce((sum, item) => sum + item.quantity, 0)}
+                    {items.reduce((sum, item) => sum + item.quantity, 0).toFixed(2)}
                   </span>
                 </div>
-                <div className="border-t border-border pt-3 mt-3">
-                  <div className="flex justify-between items-center">
+                <div className="border-t border-border pt-3 mt-3 space-y-2">
+                  <div className="flex justify-between text-muted-foreground">
+                    <span>Tạm tính:</span>
+                    <span className="font-semibold">{formatCurrency(calculateSubtotal())}</span>
+                  </div>
+                  <div className="flex justify-between items-center gap-2">
+                    <Label htmlFor="discount" className="text-sm">Chiết khấu (%):</Label>
+                    <Input
+                      id="discount"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      value={discount || ''}
+                      onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
+                      className="w-20 h-8 text-right"
+                      placeholder="0"
+                    />
+                  </div>
+                  <div className="flex justify-between items-center gap-2">
+                    <Label htmlFor="vat" className="text-sm">VAT (%):</Label>
+                    <Input
+                      id="vat"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      value={vat || ''}
+                      onChange={(e) => setVat(parseFloat(e.target.value) || 0)}
+                      className="w-20 h-8 text-right"
+                      placeholder="0"
+                    />
+                  </div>
+                  <div className="flex justify-between items-center pt-2 border-t">
                     <span className="text-lg font-semibold text-foreground">
                       Tổng cộng:
                     </span>

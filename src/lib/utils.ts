@@ -4,3 +4,13 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function formatNumberWithThousands(value: number | string): string {
+  const num = typeof value === 'string' ? parseFloat(value.replace(/,/g, '')) : value;
+  if (isNaN(num)) return '';
+  return num.toLocaleString('vi-VN');
+}
+
+export function parseFormattedNumber(value: string): number {
+  return parseFloat(value.replace(/,/g, '')) || 0;
+}
