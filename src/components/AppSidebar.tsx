@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -12,6 +13,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { UserProfile } from "@/components/UserProfile";
 
 const items = [
   { title: "Trang chủ", url: "/", icon: Home },
@@ -60,6 +62,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="border-t border-border p-4">
+        <UserProfile />
+      </SidebarFooter>
     </Sidebar>
   );
 }
