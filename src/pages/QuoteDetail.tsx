@@ -128,11 +128,11 @@ const QuoteDetail = () => {
           <Card className="p-8 mb-6">
             {/* Company Header */}
             <div className="mb-8 pb-6 border-b border-border">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <span className="text-3xl font-bold text-primary">ABC</span>
-                  </div>
+              <div className="flex items-start gap-4">
+                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-3xl font-bold text-primary">ABC</span>
+                </div>
+                <div className="flex-1 grid md:grid-cols-2 gap-4">
                   <div>
                     <h2 className="text-2xl font-bold text-primary mb-1">
                       CÔNG TY SÂN VƯỜN ABC
@@ -141,17 +141,17 @@ const QuoteDetail = () => {
                       Thiết kế & Thi công Ban công - Sân vườn
                     </p>
                   </div>
-                </div>
-                <div className="flex flex-col justify-center text-sm">
-                  <p className="text-muted-foreground">
-                    <strong>Hotline:</strong> 0901234567
-                  </p>
-                  <p className="text-muted-foreground">
-                    <strong>Email:</strong> contact@sanvuon.com
-                  </p>
-                  <p className="text-muted-foreground">
-                    <strong>Địa chỉ:</strong> 123 Đường ABC, TP.HCM
-                  </p>
+                  <div className="flex flex-col justify-center text-sm space-y-1">
+                    <p className="text-muted-foreground">
+                      <strong className="text-foreground">Hotline:</strong> 0901234567
+                    </p>
+                    <p className="text-muted-foreground">
+                      <strong className="text-foreground">Địa chỉ:</strong> 123 Đường ABC, TP.HCM
+                    </p>
+                    <p className="text-muted-foreground">
+                      <strong className="text-foreground">Website:</strong> www.sanvuon.com
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
