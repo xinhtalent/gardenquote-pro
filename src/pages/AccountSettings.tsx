@@ -25,6 +25,7 @@ const AccountSettings = () => {
         toast({
           title: "Avatar đã được tải lên",
           description: "Avatar của bạn đã được cập nhật",
+          duration: 2000,
         });
       };
       reader.readAsDataURL(file);
@@ -35,6 +36,7 @@ const AccountSettings = () => {
     toast({
       title: "Cập nhật thành công",
       description: "Thông tin cá nhân đã được lưu",
+      duration: 2000,
     });
   };
 
@@ -44,12 +46,14 @@ const AccountSettings = () => {
         variant: "destructive",
         title: "Lỗi",
         description: "Mật khẩu xác nhận không khớp",
+        duration: 2000,
       });
       return;
     }
     toast({
       title: "Đổi mật khẩu thành công",
       description: "Mật khẩu của bạn đã được cập nhật",
+      duration: 2000,
     });
     setCurrentPassword("");
     setNewPassword("");
@@ -60,6 +64,7 @@ const AccountSettings = () => {
     toast({
       title: "Đăng xuất thành công",
       description: "Hẹn gặp lại bạn!",
+      duration: 2000,
     });
   };
 
