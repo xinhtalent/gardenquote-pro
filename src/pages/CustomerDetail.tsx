@@ -1,11 +1,25 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Phone, MapPin, FileText, User } from "lucide-react";
+import { ArrowLeft, Phone, MapPin, FileText, User, Pencil, Trash2 } from "lucide-react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
+import { toast } from "sonner";
 
 const CustomerDetail = () => {
   const { phone } = useParams();
   const navigate = useNavigate();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const handleEdit = () => {
+    toast.info("Chức năng sửa khách hàng đang được phát triển");
+  };
+
+  const handleDeleteConfirm = () => {
+    toast.success(`Đã xóa khách hàng ${customer.name}`);
+    setDeleteDialogOpen(false);
+    navigate("/customers");
+  };
 
   // Mock data - sẽ thay bằng dữ liệu thực từ database
   const customer = {
@@ -51,18 +65,34 @@ const CustomerDetail = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-6 md:mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <Button 
-                variant="outline" 
-                size="icon"
-                onClick={() => navigate("/customers")}
-                className="shrink-0"
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
-              <h1 className="text-2xl md:text-4xl font-bold text-foreground">
-                Chi tiết Khách hàng
-              </h1>
+            <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
+              <div className="flex items-center gap-3">
+                <Button 
+                  variant="outline" 
+                  size="icon"
+                  onClick={() => navigate("/customers")}
+                  className="shrink-0"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </Button>
+                <h1 className="text-2xl md:text-4xl font-bold text-foreground">
+                  Chi tiết Khách hàng
+                </h1>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" className="gap-2" onClick={handleEdit}>
+                  <Pencil className="w-4 h-4" />
+                  <span className="hidden sm:inline">Sửa</span>
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="gap-2 text-destructive hover:text-destructive" 
+                  onClick={() => setDeleteDialogOpen(true)}
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span className="hidden sm:inline">Xóa</span>
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -152,6 +182,13 @@ const CustomerDetail = () => {
           </div>
         </div>
       </div>
+
+      <DeleteConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDeleteConfirm}
+        itemName={customer.name}
+      />
     </div>
   );
 };

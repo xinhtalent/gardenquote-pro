@@ -2,11 +2,40 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, Search, Phone, MapPin } from "lucide-react";
+import { Users, Search, Phone, MapPin, MoreVertical, Pencil, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
+import { toast } from "sonner";
 
 const Customers = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<{ phone: string; name: string } | null>(null);
+
+  const handleEdit = (phone: string, name: string) => {
+    toast.info("Chức năng sửa khách hàng đang được phát triển");
+    console.log("Edit customer:", phone);
+  };
+
+  const handleDeleteClick = (phone: string, name: string) => {
+    setSelectedCustomer({ phone, name });
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (selectedCustomer) {
+      toast.success(`Đã xóa khách hàng ${selectedCustomer.name}`);
+      console.log("Delete customer:", selectedCustomer.phone);
+      setDeleteDialogOpen(false);
+      setSelectedCustomer(null);
+    }
+  };
 
   // Mock data - trích xuất từ báo giá
   const allCustomers = [
@@ -77,17 +106,16 @@ const Customers = () => {
             </Card>
           ) : (
             filteredCustomers.map((customer) => (
-              <Link 
-                key={customer.phone} 
-                to={`/customer/${customer.phone}`}
-                className="block"
-              >
-                <Card className="p-4 md:p-6 hover:shadow-medium transition-all duration-300 border-2 border-transparent hover:border-primary">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 bg-primary/10 rounded-xl shrink-0">
-                        <Users className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                      </div>
+              <Card key={customer.phone} className="p-4 md:p-6 hover:shadow-medium transition-all duration-300 border-2 border-transparent hover:border-primary">
+                <div className="flex items-start gap-4">
+                  <Link 
+                    to={`/customer/${customer.phone}`}
+                    className="flex items-start gap-4 flex-1 min-w-0"
+                  >
+                    <div className="p-3 bg-primary/10 rounded-xl shrink-0">
+                      <Users className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 flex-1 min-w-0">
                       <div className="min-w-0 flex-1">
                         <h3 className="font-semibold text-lg text-foreground mb-2">
                           {customer.name}
@@ -103,19 +131,46 @@ const Customers = () => {
                           </div>
                         </div>
                       </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs px-3 py-1 rounded-full bg-accent/20 text-accent whitespace-nowrap">
+                          {customer.quoteCount} báo giá
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs px-3 py-1 rounded-full bg-accent/20 text-accent whitespace-nowrap">
-                        {customer.quoteCount} báo giá
-                      </span>
-                    </div>
-                  </div>
-                </Card>
-              </Link>
+                  </Link>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon" className="shrink-0">
+                        <MoreVertical className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => handleEdit(customer.phone, customer.name)}>
+                        <Pencil className="w-4 h-4 mr-2" />
+                        Sửa
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={() => handleDeleteClick(customer.phone, customer.name)}
+                        className="text-destructive focus:text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Xóa
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </Card>
             ))
           )}
         </div>
       </div>
+
+      <DeleteConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDeleteConfirm}
+        itemName={selectedCustomer?.name || ""}
+      />
     </div>
   );
 };

@@ -1,11 +1,25 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Download, Printer, ArrowLeft } from "lucide-react";
+import { Download, Printer, ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
+import { toast } from "sonner";
 
 const QuoteDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const handleEdit = () => {
+    toast.info("Chức năng sửa báo giá đang được phát triển");
+  };
+
+  const handleDeleteConfirm = () => {
+    toast.success(`Đã xóa báo giá #${id}`);
+    setDeleteDialogOpen(false);
+    navigate("/quotes");
+  };
 
   // Mock data - sẽ thay bằng dữ liệu thực từ database
   const quote = {
@@ -111,12 +125,24 @@ const QuoteDetail = () => {
               <p className="text-muted-foreground">
                 Ngày tạo: {new Date(quote.date).toLocaleDateString('vi-VN')}
               </p>
-              <div className="flex gap-2">
-                <Button variant="outline" className="flex-1 sm:flex-none gap-2">
+              <div className="flex gap-2 flex-wrap">
+                <Button variant="outline" className="gap-2" onClick={handleEdit}>
+                  <Pencil className="w-4 h-4" />
+                  <span className="hidden sm:inline">Sửa</span>
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="gap-2 text-destructive hover:text-destructive" 
+                  onClick={() => setDeleteDialogOpen(true)}
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span className="hidden sm:inline">Xóa</span>
+                </Button>
+                <Button variant="outline" className="gap-2">
                   <Printer className="w-4 h-4" />
                   <span className="hidden sm:inline">In</span>
                 </Button>
-                <Button className="flex-1 sm:flex-none gap-2" onClick={handleDownloadPDF}>
+                <Button className="gap-2" onClick={handleDownloadPDF}>
                   <Download className="w-4 h-4" />
                   <span className="hidden sm:inline">Tải PDF</span>
                 </Button>
@@ -359,6 +385,13 @@ const QuoteDetail = () => {
           </Card>
         </div>
       </div>
+
+      <DeleteConfirmDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDeleteConfirm}
+        itemName={`Báo giá #${id}`}
+      />
     </div>
   );
 };
