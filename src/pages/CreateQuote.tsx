@@ -36,8 +36,6 @@ const CreateQuote = () => {
   const [creatorName, setCreatorName] = useState("");
   const [creatorPhone, setCreatorPhone] = useState("");
   const [items, setItems] = useState<QuoteItem[]>([]);
-  const [discount, setDiscount] = useState<number>(0);
-  const [vat, setVat] = useState<number>(0);
 
   // Mock available items
   const availableItems = [
@@ -61,41 +59,18 @@ const CreateQuote = () => {
     }
   };
 
-  const updateQuantity = (id: number, quantity: string) => {
-    // Allow empty string, decimal numbers, and remove leading zeros
-    if (quantity === '') {
-      setItems(items.map(item => 
-        item.id === id ? { ...item, quantity: 0 } : item
-      ));
-      return;
-    }
-    
-    // Remove leading zeros but keep decimal point and numbers after it
-    let cleanValue = quantity.replace(/^0+(?=\d)/, '');
-    // Parse as float to support decimals
-    const numValue = parseFloat(cleanValue);
-    
-    if (!isNaN(numValue) && numValue >= 0) {
-      setItems(items.map(item => 
-        item.id === id ? { ...item, quantity: numValue } : item
-      ));
-    }
+  const updateQuantity = (id: number, quantity: number) => {
+    setItems(items.map(item => 
+      item.id === id ? { ...item, quantity: Math.max(0, quantity) } : item
+    ));
   };
 
   const removeItem = (id: number) => {
     setItems(items.filter(item => item.id !== id));
   };
 
-  const calculateSubtotal = () => {
-    return items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
-  };
-
   const calculateTotal = () => {
-    const subtotal = calculateSubtotal();
-    const discountAmount = (subtotal * discount) / 100;
-    const afterDiscount = subtotal - discountAmount;
-    const vatAmount = (afterDiscount * vat) / 100;
-    return afterDiscount + vatAmount;
+    return items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
   };
 
   const formatCurrency = (amount: number) => {
@@ -270,13 +245,11 @@ const CreateQuote = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <Input
-                          type="text"
-                          inputMode="decimal"
-                          value={item.quantity === 0 ? '' : item.quantity}
-                          onChange={(e) => updateQuantity(item.id, e.target.value)}
-                          onFocus={(e) => e.target.select()}
+                          type="number"
+                          min="0"
+                          value={item.quantity}
+                          onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 0)}
                           className="w-20 text-center"
-                          placeholder="0"
                         />
                         <span className="text-sm text-muted-foreground min-w-[40px]">
                           {item.unit}
@@ -314,43 +287,11 @@ const CreateQuote = () => {
                 <div className="flex justify-between text-muted-foreground">
                   <span>Tổng số lượng:</span>
                   <span className="font-semibold">
-                    {items.reduce((sum, item) => sum + item.quantity, 0).toFixed(2)}
+                    {items.reduce((sum, item) => sum + item.quantity, 0)}
                   </span>
                 </div>
-                <div className="border-t border-border pt-3 mt-3 space-y-2">
-                  <div className="flex justify-between text-muted-foreground">
-                    <span>Tạm tính:</span>
-                    <span className="font-semibold">{formatCurrency(calculateSubtotal())}</span>
-                  </div>
-                  <div className="flex justify-between items-center gap-2">
-                    <Label htmlFor="discount" className="text-sm">Chiết khấu (%):</Label>
-                    <Input
-                      id="discount"
-                      type="number"
-                      min="0"
-                      max="100"
-                      step="0.1"
-                      value={discount || ''}
-                      onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
-                      className="w-20 h-8 text-right"
-                      placeholder="0"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center gap-2">
-                    <Label htmlFor="vat" className="text-sm">VAT (%):</Label>
-                    <Input
-                      id="vat"
-                      type="number"
-                      min="0"
-                      max="100"
-                      step="0.1"
-                      value={vat || ''}
-                      onChange={(e) => setVat(parseFloat(e.target.value) || 0)}
-                      className="w-20 h-8 text-right"
-                      placeholder="0"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center pt-2 border-t">
+                <div className="border-t border-border pt-3 mt-3">
+                  <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-foreground">
                       Tổng cộng:
                     </span>
