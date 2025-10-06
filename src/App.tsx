@@ -6,8 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ThemeProvider } from "next-themes";
 import { AppSidebar } from "@/components/AppSidebar";
-import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { UserProfile } from "@/components/UserProfile";
 import Dashboard from "./pages/Dashboard";
 import Quotes from "./pages/Quotes";
 import Customers from "./pages/Customers";
@@ -17,7 +15,6 @@ import CreateQuote from "./pages/CreateQuote";
 import QuoteDetail from "./pages/QuoteDetail";
 import Settings from "./pages/Settings";
 import AccountSettings from "./pages/AccountSettings";
-import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,47 +26,39 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/auth" element={<Auth />} />
-            <Route
-              path="/*"
-              element={
-                <ProtectedRoute>
-                  <SidebarProvider>
-                    <div className="min-h-screen flex w-full">
-                      <AppSidebar />
-                      <div className="flex-1 flex flex-col w-full">
-                        <header className="h-14 border-b border-border bg-background flex items-center justify-between px-4 sticky top-0 z-10">
-                          <SidebarTrigger />
-                          <div className="flex items-center gap-3">
-                            <span className="font-semibold text-lg hidden sm:block">Hệ thống báo giá</span>
-                            <UserProfile />
-                          </div>
-                        </header>
-                        <main className="flex-1">
-                          <Routes>
-                            <Route path="/" element={<Dashboard />} />
-                            <Route path="/quotes" element={<Quotes />} />
-                            <Route path="/customers" element={<Customers />} />
-                            <Route path="/customer/:phone" element={<CustomerDetail />} />
-                            <Route path="/item-library" element={<ItemLibrary />} />
-                            <Route path="/create-quote" element={<CreateQuote />} />
-                            <Route path="/quote/:id" element={<QuoteDetail />} />
-                            <Route path="/settings" element={<Settings />} />
-                            <Route path="/account-settings" element={<AccountSettings />} />
-                            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                            <Route path="*" element={<NotFound />} />
-                          </Routes>
-                        </main>
-                      </div>
-                    </div>
-                  </SidebarProvider>
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+        <SidebarProvider>
+          <div className="min-h-screen flex w-full">
+            <AppSidebar />
+            <div className="flex-1 flex flex-col w-full">
+              <header className="h-14 border-b border-border bg-background flex items-center justify-between px-4 sticky top-0 z-10">
+                <SidebarTrigger />
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">
+                    ABC
+                  </div>
+                  <span className="font-semibold text-lg hidden sm:block">Hệ thống báo giá</span>
+                </div>
+              </header>
+              <main className="flex-1">
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/quotes" element={<Quotes />} />
+                  <Route path="/customers" element={<Customers />} />
+                  <Route path="/customer/:phone" element={<CustomerDetail />} />
+                  <Route path="/item-library" element={<ItemLibrary />} />
+                  <Route path="/create-quote" element={<CreateQuote />} />
+                  <Route path="/quote/:id" element={<QuoteDetail />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/account-settings" element={<AccountSettings />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+            </div>
+          </div>
+        </SidebarProvider>
+      </BrowserRouter>
+    </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
