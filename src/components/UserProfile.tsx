@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { User, Settings, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -10,22 +10,60 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export function UserProfile() {
-  const { toast } = useToast();
-  // Mock user data
-  const [user] = useState({
-    name: "Nguyễn Văn A",
-    email: "nguyenvana@example.com",
-    avatar: "",
-  });
+  const navigate = useNavigate();
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [profile, setProfile] = useState<{ full_name: string; avatar_url: string | null } | null>(null);
 
-  const handleLogout = () => {
-    toast({
-      title: "Đăng xuất thành công",
-      description: "Hẹn gặp lại bạn!",
-    });
+  useEffect(() => {
+    // Get current user
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+
+      // Get profile data
+      if (user) {
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("full_name, avatar_url")
+          .eq("id", user.id)
+          .single();
+        
+        if (profileData) {
+          setProfile(profileData);
+        }
+      }
+    };
+
+    getUser();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast.success("Đăng xuất thành công!");
+      navigate("/auth");
+    } catch (error) {
+      toast.error("Lỗi khi đăng xuất");
+    }
+  };
+
+  const getUserInitials = () => {
+    if (profile?.full_name) {
+      return profile.full_name.charAt(0).toUpperCase();
+    }
+    if (user?.email) {
+      return user.email.charAt(0).toUpperCase();
+    }
+    return "U";
+  };
+
+  const getDisplayName = () => {
+    return profile?.full_name || user?.email || "User";
   };
 
   return (
@@ -33,19 +71,19 @@ export function UserProfile() {
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user.avatar} alt={user.name} />
+            <AvatarImage src={profile?.avatar_url || ""} alt={getDisplayName()} />
             <AvatarFallback className="bg-primary text-primary-foreground">
-              {user.name.charAt(0)}
+              {getUserInitials()}
             </AvatarFallback>
           </Avatar>
-          <span className="text-sm font-medium hidden md:block">{user.name}</span>
+          <span className="text-sm font-medium hidden md:block">{getDisplayName()}</span>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium">{user.name}</p>
-            <p className="text-xs text-muted-foreground">{user.email}</p>
+            <p className="text-sm font-medium">{getDisplayName()}</p>
+            <p className="text-xs text-muted-foreground">{user?.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

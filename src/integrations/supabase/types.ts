@@ -14,7 +14,284 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      companies: {
+        Row: {
+          address: string
+          bank_account_name: string
+          bank_account_number: string
+          bank_name: string
+          created_at: string | null
+          email: string | null
+          hotline: string
+          id: string
+          logo_url: string | null
+          name: string
+          tagline: string | null
+          tax_code: string | null
+          updated_at: string | null
+          user_id: string
+          vietqr_info: string | null
+          website: string | null
+        }
+        Insert: {
+          address: string
+          bank_account_name: string
+          bank_account_number: string
+          bank_name: string
+          created_at?: string | null
+          email?: string | null
+          hotline: string
+          id?: string
+          logo_url?: string | null
+          name: string
+          tagline?: string | null
+          tax_code?: string | null
+          updated_at?: string | null
+          user_id: string
+          vietqr_info?: string | null
+          website?: string | null
+        }
+        Update: {
+          address?: string
+          bank_account_name?: string
+          bank_account_number?: string
+          bank_name?: string
+          created_at?: string | null
+          email?: string | null
+          hotline?: string
+          id?: string
+          logo_url?: string | null
+          name?: string
+          tagline?: string | null
+          tax_code?: string | null
+          updated_at?: string | null
+          user_id?: string
+          vietqr_info?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
+      customers: {
+        Row: {
+          address: string | null
+          created_at: string | null
+          id: string
+          name: string
+          phone: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string | null
+          id?: string
+          name: string
+          phone: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string | null
+          id?: string
+          name?: string
+          phone?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      items: {
+        Row: {
+          category: string
+          created_at: string | null
+          id: string
+          image_url: string | null
+          name: string
+          price: number
+          unit: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          price: number
+          unit: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          price?: number
+          unit?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          full_name: string
+          id: string
+          phone: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          full_name: string
+          id: string
+          phone: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          phone?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      quote_items: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          id: string
+          item_id: string | null
+          name: string
+          price: number
+          quantity: number
+          quote_id: string
+          total: number
+          unit: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          item_id?: string | null
+          name: string
+          price: number
+          quantity: number
+          quote_id: string
+          total: number
+          unit: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          item_id?: string | null
+          name?: string
+          price?: number
+          quantity?: number
+          quote_id?: string
+          total?: number
+          unit?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_items_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quote_items_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotes: {
+        Row: {
+          created_at: string | null
+          creator_name: string
+          creator_phone: string
+          customer_address: string | null
+          customer_id: string | null
+          customer_name: string
+          customer_phone: string
+          discount_amount: number | null
+          discount_percent: number | null
+          id: string
+          notes: string | null
+          quote_code: string
+          status: string
+          subtotal: number
+          total: number
+          updated_at: string | null
+          user_id: string
+          vat_amount: number | null
+          vat_percent: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          creator_name: string
+          creator_phone: string
+          customer_address?: string | null
+          customer_id?: string | null
+          customer_name: string
+          customer_phone: string
+          discount_amount?: number | null
+          discount_percent?: number | null
+          id?: string
+          notes?: string | null
+          quote_code: string
+          status?: string
+          subtotal?: number
+          total: number
+          updated_at?: string | null
+          user_id: string
+          vat_amount?: number | null
+          vat_percent?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          creator_name?: string
+          creator_phone?: string
+          customer_address?: string | null
+          customer_id?: string | null
+          customer_name?: string
+          customer_phone?: string
+          discount_amount?: number | null
+          discount_percent?: number | null
+          id?: string
+          notes?: string | null
+          quote_code?: string
+          status?: string
+          subtotal?: number
+          total?: number
+          updated_at?: string | null
+          user_id?: string
+          vat_amount?: number | null
+          vat_percent?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
