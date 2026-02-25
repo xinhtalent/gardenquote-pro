@@ -48,6 +48,9 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+		sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+        },
       },
       boxShadow: {
         soft: "var(--shadow-soft)",

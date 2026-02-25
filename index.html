@@ -1,21 +1,36 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="vi">
+<head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hệ thống Báo giá Sân vườn - Thiết kế thi công chuyên nghiệp</title>
-    <meta name="description" content="Ứng dụng tạo báo giá chuyên nghiệp cho công ty thiết kế thi công ban công sân vườn với VietQR thanh toán nhanh" />
-    <meta name="author" content="Sân vườn ABC" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Xinh CRM</title>
+    <meta name="description" content="Ứng dụng nội bộ dùng để tạo báo giá, và quản lý thi công ban công & sân vườn cho đội Xinh." />
+    <meta name="author" content="xinhliving.vn" />
+    <!-- Ngăn máy tìm kiếm index (ứng dụng nội bộ) -->
+    <meta name="robots" content="noindex, nofollow" />
+    
+    <!-- Mobile app-like experience -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
+    <link id="favicon" rel="icon" href="/favicon-light.ico" type="image/x-icon">
+    <script>
+      const favicon = document.getElementById("favicon");
+      const darkMode = window.matchMedia("(prefers-color-scheme: dark)");
+      const updateFavicon = () => {
+        favicon.href = darkMode.matches ? "/favicon-dark.ico" : "/favicon-light.ico";
+      };
+      updateFavicon();
+      darkMode.addEventListener("change", updateFavicon);
+    </script>
 
-    <meta property="og:title" content="Hệ thống Báo giá Sân vườn" />
-    <meta property="og:description" content="Tạo báo giá chuyên nghiệp với VietQR thanh toán nhanh" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <!-- PWA manifest & màu trình duyệt -->
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#16a34a">
+</head>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
 
   <body>
     <div id="root"></div>

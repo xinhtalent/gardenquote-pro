@@ -1,0 +1,16 @@
+project_id = "cenjxcsfibfqzxllpixw"
+
+[functions.create-user]
+verify_jwt = false
+
+[functions.delete-user]
+verify_jwt = false
+
+[functions.ai-chat]
+verify_jwt = true
+
+[functions.webauthn-register]
+verify_jwt = false
+
+[functions.webauthn-login]
+verify_jwt = false
